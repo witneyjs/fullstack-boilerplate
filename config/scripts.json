@@ -1,0 +1,20 @@
+{
+  "build": {
+    "nameSpaces": [
+      "front",
+      "back"
+    ]
+  },
+  "coverage": {
+    "nameSpaces": [
+      "front",
+      "back"
+    ]
+  },
+  "test": {
+    "nameSpaces": [
+      "front",
+      "back"
+    ]
+  }
+}
