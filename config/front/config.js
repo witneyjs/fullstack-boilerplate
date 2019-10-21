@@ -3,7 +3,8 @@ module.exports = function() {
     isNode: false,
     isLibrary: false,
     id: "front",
-    useHot: true
+    useHot: true,
+    devServerPort: 8080
   };
 
   config.useWorkBox = !config.isLibrary;
