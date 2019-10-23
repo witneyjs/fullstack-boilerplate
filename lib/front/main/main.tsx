@@ -1,42 +1,57 @@
 import { h, render } from "preact";
-import { createRouter, constants } from "router5";
-import browserPlugin from "router5-plugin-browser";
-import { observable, observe, batchStart, batchEnd } from "alo";
+import { constants } from "router5";
+import { observable, batchStart, batchEnd } from "alo";
 import ky from "ky-universal";
 
-import { config, createRouter5Config } from "../../common/config";
 import { App } from "@lib/common/containers/app";
 import { createFrontActionResult } from "@lib/common/controllers";
 import svg from "../assets/svgs.svg.txt";
 import { appendSvg } from "../util/svg";
+import { createRouter } from "../router";
+import { config, createRouter5Config } from "./../../common/config";
 
 appendSvg(svg);
 
 const globals = observable({
-  data: window["ACTION_RESULT"].data,
+  data: {},
   route: null,
   router: null,
   view: null
 } as any);
 
-const router5Config = createRouter5Config(config);
-const router = createRouter(router5Config.routes, router5Config.options);
-globals.router = router;
-router.usePlugin(
-  browserPlugin({
-    useHash: false
-  })
-);
-router.subscribe(function({ route }) {
-  globals.route = route;
-});
-router.start();
+if (window["ACTION_RESULT"]) {
+  globals.data = window["ACTION_RESULT"].data;
+}
+
+let initialUpdate = true;
+let router: ReturnType<typeof createRouter>;
+let unsubscribe;
+const init = function({ config }) {
+  initialUpdate = true;
+
+  if (router) {
+    unsubscribe();
+    router.stop();
+  }
+
+  batchStart();
+
+  router = createRouter({ config, createRouter5Config });
+  unsubscribe = router.subscribe(function({ route }) {
+    globals.route = route;
+    if (!route) return;
+    loadRoute(route);
+  });
+  router.start();
+  globals.router = router;
+
+  batchEnd();
+};
 
 const mount = function() {
   render(<App globals={globals} />, document.querySelector(".root")!);
 };
 
-let initialUpdate = true;
 const loadRoute = async function(route) {
   let routeName =
     route.name === constants.UNKNOWN_ROUTE ? config.notFoundRoute : route.name;
@@ -77,14 +92,12 @@ const loadRoute = async function(route) {
   initialUpdate = false;
 };
 
-observe(function() {
-  const route = globals.route;
-  if (!route) return;
-
-  loadRoute(route);
-});
+init({ config });
 
 if (module.hot) {
+  module.hot.accept("./../../common/config", function() {
+    init({ config });
+  });
   module.hot.addStatusHandler(function(status) {
     // TODO: Check if webpack 5 might bring a better solution
     // After a syntax error HMR stops updating itself and stays in "check"
