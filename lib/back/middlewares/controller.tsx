@@ -13,8 +13,9 @@ import paths from "@lib/node/paths";
 import { createActionResult } from "./../controllers";
 import { createFrontActionResult } from "./../../common/controllers";
 import { App } from "@lib/common/containers/app";
-import { config, createRouter5Config } from "../../common/config";
+import { config } from "../../common/config";
 import { logger } from "../logger";
+import { createRouter5Config } from "@lib/common/util/router5Config";
 
 let indexHtml;
 const getIndexHtml = async function({ frontDevUrl, frontNameSpaceId }) {
