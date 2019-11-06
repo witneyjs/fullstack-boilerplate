@@ -1,21 +1,18 @@
-import { observable, batchStart, batchEnd } from "alo";
+import { batchStart, batchEnd } from "alo";
+import { Router } from "router5";
 
 import { createRouter } from "./router";
 import { config } from "../common/config";
 import { createController } from "./controller";
+import { createGlobals } from "@lib/common/globals";
 
-const globals = observable({
-  data: {},
-  route: null,
-  router: null,
-  view: null
-} as any);
+const globals = createGlobals();
 
 if (window["ACTION_RESULT"]) {
   globals.data = window["ACTION_RESULT"].data;
 }
 
-let router: ReturnType<typeof createRouter>;
+let router: Router;
 let unsubscribe;
 const init = function() {
   let controller = createController({ config, globals });

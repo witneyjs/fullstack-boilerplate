@@ -16,6 +16,7 @@ import { App } from "@lib/common/containers/app";
 import { config } from "../../common/config";
 import { logger } from "../logger";
 import { createRouter5Config } from "@lib/common/util/router5Config";
+import { createGlobals } from "@lib/common/globals";
 
 let indexHtml;
 const getIndexHtml = async function({ frontDevUrl, frontNameSpaceId }) {
@@ -93,13 +94,12 @@ export const createControllerMiddleware = async function({
         }
       }
 
-      const globals = {
-        data: actionResult.data,
-        router: aRouter,
-        route,
-        view: routePart.view,
-        helmetContext: {} as any
-      };
+      const globals = createGlobals();
+      globals.data = actionResult.data;
+      globals.router = aRouter;
+      globals.route = state;
+      globals.view = routePart.view;
+
       const viewResult = renderStylesToString(
         render(<App globals={globals} />)
       );

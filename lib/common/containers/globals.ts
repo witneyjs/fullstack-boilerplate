@@ -1,3 +1,4 @@
 import { createContext } from "preact";
+import { Globals as Globals_ } from "../types";
 
-export const Globals = createContext<any>("globals");
+export const Globals = createContext<Globals_>(null as any);
