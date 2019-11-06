@@ -1,4 +1,5 @@
 import { addRoute } from ".";
+import { curryImport } from "../util/curryImport";
 
 export const REDIRECT_ROUTE = "redirect";
 
@@ -6,8 +7,10 @@ export default function(routes) {
   addRoute(routes, {
     id: REDIRECT_ROUTE,
     path: "/redirect",
-    controller: BUILD.IS_NODE && (() => import("@lib/back/controllers/home")),
+    controller:
+      BUILD.IS_NODE &&
+      curryImport(() => import("@lib/back/controllers/home"), "default"),
     action: "redirect",
-    view: () => import("@lib/front/screens/home")
+    view: curryImport(() => import("@lib/front/screens/home"), "default")
   });
 }

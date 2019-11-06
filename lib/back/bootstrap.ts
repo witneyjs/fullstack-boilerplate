@@ -18,12 +18,12 @@ export const loadRouteParts = async function({
     if (typeof route.controller === "boolean")
       throw new Error("Controller was missing in config");
 
-    const controller = (await route.controller()).default;
+    const controller = await route.controller();
 
     routeParts[routeName] = {
       controller,
       controllerIsFunction: typeof controller === "function",
-      view: (await route.view()).default
+      view: await route.view()
     };
   }
 

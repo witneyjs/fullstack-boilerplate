@@ -39,7 +39,7 @@ export const createController = function({ config, globals }) {
     const nextView = await nextViewPromise;
 
     batchStart();
-    globals.view = nextView.default;
+    globals.view = nextView;
     if (!initialUpdate && actionResult) {
       globals.data = actionResult.data;
     }
