@@ -22,6 +22,9 @@ export const createExpress = async function({
   const frontDevUrl = `http://localhost:${frontNameSpaceConfig.devServerPort}`;
 
   if (BUILD.IS_WATCH) {
+    app.get("/dev-status", (req, res) => {
+      res.send("ok");
+    });
     app.use(createDevServerProxyMiddleware({ frontDevUrl }));
   } else {
     app.use(
