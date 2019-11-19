@@ -29,7 +29,7 @@ const Home = function({ data, router }) {
       >
         <SvgIcon icon="rocket" />
       </div>
-      <h1 class={`color: ${data.color};`}>{data.label}</h1>
+      <h1 class={css`color: ${data.color};`}>{data.label}</h1>
       <button
         onClick={() => {
           router.navigate(NOT_HOME_ROUTE);
