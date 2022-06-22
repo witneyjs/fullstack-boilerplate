@@ -46,7 +46,7 @@
     "express-http-proxy": "^1.6.0",
     "feathericon": "^1.0.2",
     "file-loader": "^4.2.0",
-    "got": "^10.0.0-alpha.2",
+    "got": "^11.8.5",
     "hoppla": "^0.10.1",
     "html-webpack-plugin": "^4.0.0-beta.8",
     "idx.macro": "^4.0.0",
