@@ -51,7 +51,7 @@
     "html-webpack-plugin": "^4.0.0-beta.8",
     "idx.macro": "^4.0.0",
     "istanbul-instrumenter-loader": "^3.0.1",
-    "jsdom": "15.1.1",
+    "jsdom": "16.5.0",
     "jsdom-global": "3.0.2",
     "ky": "^0.15.0",
     "ky-universal": "^0.3.0",
